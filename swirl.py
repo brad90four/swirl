@@ -59,13 +59,15 @@ def swirl(ctx: click.core.Context) -> None:
 
 
 @swirl.command()
-def single() -> None:
+@click.option("--inner", default=0.1, help="Size of the inner circle.", type=float)
+@click.option("--outer", default=1.0, help="Size of the outer circle.", type=float)
+def single(inner: float, outer: float) -> None:
     """Function to plot and display a defaul spirograph."""
     X = []  # noqa: N806
     Y = []  # noqa: N806
     for t in range(360):
-        X.append(x_component(t))
-        Y.append(y_component(t))
+        X.append(x_component(t, inner, outer))
+        Y.append(y_component(t, inner, outer))
     plt.plot(X, Y, linewidth=0.2, color="k")
     plt.axis("off")
     plt.show()
