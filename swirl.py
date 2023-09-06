@@ -65,7 +65,7 @@ def single(inner: float, outer: float) -> None:
     """Function to plot and display a defaul spirograph."""
     X = []  # noqa: N806
     Y = []  # noqa: N806
-    for t in range(360):
+    for t in range(361):
         X.append(x_component(t, inner, outer))
         Y.append(y_component(t, inner, outer))
     plt.plot(X, Y, linewidth=0.2, color="k")
@@ -88,7 +88,7 @@ def multi(inner: float, outer: float) -> None:
     for rho_change in arange(-inner * 2, inner * 2, inner / 20):
         X = []  # noqa: N806
         Y = []  # noqa: N806
-        for t in range(360):
+        for t in range(361):
             X.append(x_component(t, inner, outer, rho_change))
             Y.append(y_component(t, inner, outer, rho_change))
         plt.plot(X, Y, linewidth=0.2)
