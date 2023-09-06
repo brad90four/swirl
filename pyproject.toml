@@ -17,6 +17,7 @@ black = "^23.7.0"
 isort = "^5.11.5"
 ruff = "^0.0.287"
 pre-commit = "^3.4.0"
+mypy = "^1.5.1"
 
 [build-system]
 requires = ["poetry-core"]
@@ -40,3 +41,6 @@ ignore = [
 ]
 line-length = 121
 select = ["ANN", "B", "C4", "D", "DTZ", "E", "F", "ISC", "INT", "N", "PGH", "PIE", "Q", "RET", "RSE", "RUF", "S", "SIM", "T20", "TID", "UP", "W"]
+
+[tool.mypy]
+ignore_missing_imports = true

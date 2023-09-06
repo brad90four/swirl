@@ -1,8 +1,6 @@
-# swirl
-
 from math import cos, radians, sin
 
-import click  # noqa: F401
+import click
 import matplotlib.colors as mcolors
 import matplotlib.pyplot as plt
 from cycler import cycler
@@ -11,7 +9,7 @@ from numpy import arange
 # Spirograph trajectories calculated from https://en.wikipedia.org/wiki/Spirograph
 
 
-def x_component(angle: float, inner_radius: float = 0.1, outer_radius: float = 1.0, rho: float = 0.05) -> float:
+def x_component(angle: float, inner_radius: float = 0.1, outer_radius: float = 1.0, rho: float = 0.2) -> float:
     """
     Calculate the x component of position for a given input angle.
 
@@ -29,7 +27,7 @@ def x_component(angle: float, inner_radius: float = 0.1, outer_radius: float = 1
     return outer_radius * ((1 - k) * cos(radians(angle)) + radius_ratio * k * cos(radians(angle) * ((1 - k) / k)))
 
 
-def y_component(angle: float, inner_radius: float = 0.1, outer_radius: float = 1.0, rho: float = 0.05) -> float:
+def y_component(angle: float, inner_radius: float = 0.1, outer_radius: float = 1.0, rho: float = 0.2) -> float:
     """
     Calculate the y component of position for a given input angle.
 
@@ -47,24 +45,54 @@ def y_component(angle: float, inner_radius: float = 0.1, outer_radius: float = 1
     return outer_radius * ((1 - k) * sin(radians(angle)) - radius_ratio * k * sin(radians(angle) * ((1 - k) / k)))
 
 
-def multi_plot(inner_radius: float, outer_radius: float) -> None:
+@click.group(invoke_without_command=True)
+@click.pass_context
+def swirl(ctx: click.core.Context) -> None:
+    """
+    CLI entry point. Will plot a single default spirograph if left blank without a subcommand.
+
+    Args:
+        ctx (click.core.Context): Context passed by click to determine if subcommand is empty.
+    """
+    if ctx.invoked_subcommand is None:
+        single()
+
+
+@swirl.command()
+def single() -> None:
+    """Function to plot and display a defaul spirograph."""
+    X = []  # noqa: N806
+    Y = []  # noqa: N806
+    for t in range(360):
+        X.append(x_component(t))
+        Y.append(y_component(t))
+    plt.plot(X, Y, linewidth=0.2, color="k")
+    plt.axis("off")
+    plt.show()
+
+
+@swirl.command()
+@click.option("--inner", default=0.1, help="Size of the inner circle.", type=float)
+@click.option("--outer", default=1.0, help="Size of the outer circle.", type=float)
+def multi(inner: float, outer: float) -> None:
     """
     A helper function to plot multiple graphs by incrementing the 'rho' dimension.
 
     Args:
-        inner_radius (float, optional): _description_. Defaults to 0.1.
-        outer_radius (float, optional): _description_. Defaults to 1.0.
+        inner (float, optional): _description_. Defaults to 0.1.
+        outer (float, optional): _description_. Defaults to 1.0.
     """
     plt.rc("axes", prop_cycle=(cycler("color", mcolors.BASE_COLORS)))
-    for rho_change in arange(0, 0.1, 0.005):
+    for rho_change in arange(-inner * 2, inner * 2, inner / 20):
         X = []  # noqa: N806
         Y = []  # noqa: N806
         for t in range(360):
-            X.append(x_component(t, inner_radius, outer_radius, rho_change))
-            Y.append(y_component(t, inner_radius, outer_radius, rho_change))
+            X.append(x_component(t, inner, outer, rho_change))
+            Y.append(y_component(t, inner, outer, rho_change))
         plt.plot(X, Y, linewidth=0.2)
         plt.axis("off")
+    plt.show()
 
 
-multi_plot(0.05, 1.0)
-plt.show()
+if __name__ == "__main__":
+    swirl()
