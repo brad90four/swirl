@@ -51,6 +51,8 @@ def swirl(ctx: click.core.Context) -> None:
     """
     CLI entry point. Will plot a single default spirograph if left blank without a subcommand.
 
+    \f
+
     Args:
         ctx (click.core.Context): Context passed by click to determine if subcommand is empty.
     """
@@ -58,11 +60,19 @@ def swirl(ctx: click.core.Context) -> None:
         single()
 
 
-@swirl.command()
+@swirl.command("single", short_help="Create single figure")
 @click.option("--inner", default=0.1, help="Size of the inner circle.", type=float)
 @click.option("--outer", default=1.0, help="Size of the outer circle.", type=float)
 def single(inner: float, outer: float) -> None:
-    """Function to plot and display a defaul spirograph."""
+    """
+    Function to plot and display a default spirograph.
+
+    \f
+
+    Args:
+        inner (float, optional): Radius of the inner circle. Defaults to 0.1.
+        outer (float, optional): Radius of the outer circle. Defaults to 1.0.
+    """
     X = []  # noqa: N806
     Y = []  # noqa: N806
     for t in range(361):
@@ -73,16 +83,18 @@ def single(inner: float, outer: float) -> None:
     plt.show()
 
 
-@swirl.command()
+@swirl.command("multi", short_help="Create multiple figures")
 @click.option("--inner", default=0.1, help="Size of the inner circle.", type=float)
 @click.option("--outer", default=1.0, help="Size of the outer circle.", type=float)
 def multi(inner: float, outer: float) -> None:
     """
     A helper function to plot multiple graphs by incrementing the 'rho' dimension.
 
+    \f
+
     Args:
-        inner (float, optional): _description_. Defaults to 0.1.
-        outer (float, optional): _description_. Defaults to 1.0.
+        inner (float, optional): Radius of the inner circle. Defaults to 0.1.
+        outer (float, optional): Radius of the outer circle. Defaults to 1.0.
     """
     plt.rc("axes", prop_cycle=(cycler("color", mcolors.BASE_COLORS)))
     for rho_change in arange(-inner * 2, inner * 2, inner / 20):
