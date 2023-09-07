@@ -40,7 +40,7 @@ Creating and displaying a `multi` image with defaults:
 
 Creating and displaying a `multi` image with changed `inner` and `outer` radius sizes:
 ```
-➜ py .\swirl.py --inner=0.1 --outer=2.5
+➜ py .\swirl.py multi --inner=0.1 --outer=2.5
 ```
 
 Default `single` image:
