@@ -9,7 +9,9 @@ from numpy import arange
 # Spirograph trajectories calculated from https://en.wikipedia.org/wiki/Spirograph
 
 
-def component(angle: float, inner_radius: float = 0.1, outer_radius: float = 1.0, rho: float = 0.2) -> float:
+def component(
+    angle: float, inner_radius: float = 0.1, outer_radius: float = 1.0, rho: float = 0.2
+) -> tuple[float, float]:
     """
     Calculate the X and Y components of position for a given input angle.
 
@@ -60,8 +62,9 @@ def single(inner: float, outer: float) -> None:
     X = []  # noqa: N806
     Y = []  # noqa: N806
     for t in range(361):
-        X.append(component(t, inner, outer)[0])
-        Y.append(component(t, inner, outer)[1])
+        comp = component(t, inner, outer)
+        X.append(comp[0])
+        Y.append(comp[1])
     plt.plot(X, Y, linewidth=0.2, color="k")
     plt.axis("off")
     plt.show()
@@ -85,8 +88,9 @@ def multi(inner: float, outer: float) -> None:
         X = []  # noqa: N806
         Y = []  # noqa: N806
         for t in range(361):
-            X.append(component(t, inner, outer, rho_change)[0])
-            Y.append(component(t, inner, outer, rho_change)[1])
+            comp = component(t, inner, outer, rho_change)
+            X.append(comp[0])
+            Y.append(comp[1])
         plt.plot(X, Y, linewidth=0.2)
         plt.axis("off")
     plt.show()
