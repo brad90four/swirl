@@ -9,9 +9,9 @@ from numpy import arange
 # Spirograph trajectories calculated from https://en.wikipedia.org/wiki/Spirograph
 
 
-def x_component(angle: float, inner_radius: float = 0.1, outer_radius: float = 1.0, rho: float = 0.2) -> float:
+def component(angle: float, inner_radius: float = 0.1, outer_radius: float = 1.0, rho: float = 0.2) -> float:
     """
-    Calculate the x component of position for a given input angle.
+    Calculate the X and Y components of position for a given input angle.
 
     Args:
         angle (float): The angle of rotation of the inner circle in relation to the outer circle.
@@ -24,25 +24,9 @@ def x_component(angle: float, inner_radius: float = 0.1, outer_radius: float = 1
     """
     radius_ratio = rho / inner_radius
     k = inner_radius / outer_radius
-    return outer_radius * ((1 - k) * cos(radians(angle)) + radius_ratio * k * cos(radians(angle) * ((1 - k) / k)))
-
-
-def y_component(angle: float, inner_radius: float = 0.1, outer_radius: float = 1.0, rho: float = 0.2) -> float:
-    """
-    Calculate the y component of position for a given input angle.
-
-    Args:
-        angle (float): The angle of rotation of the inner circle in relation to the outer circle.
-        inner_radius (float, optional): Radius of the inner circle. Defaults to 0.1.
-        outer_radius (float, optional): Radius of the outer circle. Defaults to 1.0.
-        rho (float, optional): Distance away from the center of the inner circle. Defaults to 0.05.
-
-    Returns:
-        float: Y component of position
-    """
-    radius_ratio = rho / inner_radius
-    k = inner_radius / outer_radius
-    return outer_radius * ((1 - k) * sin(radians(angle)) - radius_ratio * k * sin(radians(angle) * ((1 - k) / k)))
+    x = outer_radius * ((1 - k) * cos(radians(angle)) + radius_ratio * k * cos(radians(angle) * ((1 - k) / k)))
+    y = outer_radius * ((1 - k) * sin(radians(angle)) - radius_ratio * k * sin(radians(angle) * ((1 - k) / k)))
+    return x, y
 
 
 @click.group(invoke_without_command=True)
@@ -76,8 +60,8 @@ def single(inner: float, outer: float) -> None:
     X = []  # noqa: N806
     Y = []  # noqa: N806
     for t in range(361):
-        X.append(x_component(t, inner, outer))
-        Y.append(y_component(t, inner, outer))
+        X.append(component(t, inner, outer)[0])
+        Y.append(component(t, inner, outer)[1])
     plt.plot(X, Y, linewidth=0.2, color="k")
     plt.axis("off")
     plt.show()
@@ -101,8 +85,8 @@ def multi(inner: float, outer: float) -> None:
         X = []  # noqa: N806
         Y = []  # noqa: N806
         for t in range(361):
-            X.append(x_component(t, inner, outer, rho_change))
-            Y.append(y_component(t, inner, outer, rho_change))
+            X.append(component(t, inner, outer, rho_change)[0])
+            Y.append(component(t, inner, outer, rho_change)[1])
         plt.plot(X, Y, linewidth=0.2)
         plt.axis("off")
     plt.show()
