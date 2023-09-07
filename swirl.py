@@ -17,7 +17,7 @@ def x_component(angle: float, inner_radius: float = 0.1, outer_radius: float = 1
         angle (float): The angle of rotation of the inner circle in relation to the outer circle.
         inner_radius (float, optional): Radius of the inner circle. Defaults to 0.1.
         outer_radius (float, optional): Radius of the outer circle. Defaults to 1.0.
-        rho (float, optional): Distance away from the edge of the inner circle. Defaults to 0.05.
+        rho (float, optional): Distance away from the center of the inner circle. Defaults to 0.05.
 
     Returns:
         float: X component of position
@@ -35,7 +35,7 @@ def y_component(angle: float, inner_radius: float = 0.1, outer_radius: float = 1
         angle (float): The angle of rotation of the inner circle in relation to the outer circle.
         inner_radius (float, optional): Radius of the inner circle. Defaults to 0.1.
         outer_radius (float, optional): Radius of the outer circle. Defaults to 1.0.
-        rho (float, optional): Distance away from the edge of the inner circle. Defaults to 0.05.
+        rho (float, optional): Distance away from the center of the inner circle. Defaults to 0.05.
 
     Returns:
         float: Y component of position
